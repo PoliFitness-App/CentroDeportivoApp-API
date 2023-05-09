@@ -1,0 +1,132 @@
+[
+    {
+      "title": "Rutina de cardio",
+      "description": "Rutina intensa de cardio para quemar calorías",
+      "image": "https://ejemplo.com/rutina-cardio.jpg",
+      "ageRange": {
+        "min": 18,
+        "max": 45
+      },
+      "routineType": "Cardio",
+      "bmiRange": {
+        "min": 18,
+        "max": 25
+      },
+      "waistToHipRatioRange": {
+        "min": 0.8,
+        "max": 0.9
+      },
+      "difficulty": "Intermedia",
+      "calories": 500,
+      "routineTime": 60,
+      "steps": [
+        {
+          "name": "Calentamiento",
+          "description": "Realiza 5 minutos de calentamiento ligero."
+        },
+        {
+          "name": "Saltos de tijera",
+          "description": "Realiza 3 series de 15 repeticiones de saltos de tijera."
+        },
+        {
+          "name": "Burpees",
+          "description": "Realiza 4 series de 10 repeticiones de burpees."
+        },
+        {
+          "name": "Correr en el lugar",
+          "description": "Corre en el lugar durante 5 minutos a ritmo rápido."
+        },
+        {
+          "name": "Saltos de cuerda",
+          "description": "Realiza 3 series de 30 segundos de saltos de cuerda."
+        },
+        {
+          "name": "Enfriamiento",
+          "description": "Realiza 5 minutos de enfriamiento y estiramientos."
+        }
+      ]
+    },
+    {
+      "title": "Rutina de fuerza",
+      "description": "Rutina de entrenamiento de fuerza para tonificar los músculos",
+      "image": "https://ejemplo.com/rutina-fuerza.jpg",
+      "ageRange": {
+        "min": 20,
+        "max": 50
+      },
+      "routineType": "Fuerza",
+      "bmiRange": {
+        "min": 20,
+        "max": 30
+      },
+      "waistToHipRatioRange": {
+        "min": 0.7,
+        "max": 0.8
+      },
+      "difficulty": "Avanzada",
+      "calories": 600,
+      "routineTime": 45,
+      "steps": [
+        {
+          "name": "Calentamiento",
+          "description": "Realiza 10 minutos de calentamiento cardiovascular."
+        },
+        {
+          "name": "Sentadillas",
+          "description": "Realiza 3 series de 12 repeticiones de sentadillas con peso."
+        },
+        {
+          "name": "Press de banca",
+          "description": "Realiza 4 series de 10 repeticiones de press de banca con peso."
+        },
+        {
+          "name": "Dominadas",
+          "description": "Realiza 3 series de 8 repeticiones de dominadas en barra."
+        },
+        {
+          "name": "Curl de bíceps",
+          "description": "Realiza 3 series de 12 repeticiones de curl de bíceps con mancuernas."
+        },
+        {
+          "name": "Enfriamiento",
+          "description": "Realiza 3 series de 12 repeticiones de curl de bíceps con mancuernas."
+        }
+        ]
+    },
+    {
+        "title": "Rutina de ejercicios para piernas y glúteos",
+        "description": "Esta rutina de ejercicios se enfoca en fortalecer y tonificar los músculos de las piernas y glúteos.",
+        "image": "https://ejemplo.com/rutina-piernas-gluteos.jpg",
+        "ageRange": {
+          "min": 18,
+          "max": 35
+        },
+        "routineType": "Fuerza",
+        "bmiRange": {
+          "min": 18,
+          "max": 25
+        },
+        "waistToHipRatioRange": {
+          "min": 0.7,
+          "max": 0.85
+        },
+        "difficulty": "Intermedio",
+        "calories": 300,
+        "routineTime": 45,
+        "steps": [
+          {
+            "name": "Sentadillas con peso",
+            "description": "Ponte de pie con los pies separados al ancho de los hombros. Sostén una pesa con ambas manos y colócala detrás de tu cabeza. Manteniendo la espalda recta, baja lentamente como si te sentaras en una silla hasta que tus muslos estén paralelos al suelo. Vuelve a subir a la posición inicial y repite."
+          },
+          {
+            "name": "Estocadas",
+            "description": "Ponte de pie con los pies separados al ancho de los hombros. Da un paso largo hacia adelante con la pierna derecha y dobla ambas rodillas hasta que la rodilla izquierda esté cerca del suelo. Vuelve a la posición inicial y repite con la otra pierna."
+          },
+          {
+            "name": "Puente de glúteos",
+            "description": "Acuéstate boca arriba con las rodillas dobladas y los pies apoyados en el suelo. Levanta las caderas hacia arriba hasta que tu cuerpo forme una línea recta desde los hombros hasta las rodillas. Mantén la posición por unos segundos y baja lentamente a la posición inicial."
+          }
+        ]
+      }
+      
+]
