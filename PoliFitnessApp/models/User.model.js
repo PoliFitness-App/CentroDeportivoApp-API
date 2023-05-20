@@ -73,6 +73,10 @@ const userSchema = new Schema({
   tokens: {
     type: [String],
     default: []
+  },
+  roles: {
+    type: [String],
+    default: []
   }
 }, { timestamps: true });
 
