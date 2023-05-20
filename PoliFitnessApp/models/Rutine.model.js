@@ -5,7 +5,9 @@ const Schema = Mongoose.Schema;
 
 // STEP SCHEMA
 
-const stepSchema = new Schema({
+/**
+ * ya no se utiliza debido al formato
+ * const stepSchema = new Schema({
 
     // EACH STEP HAS A NAME AND A DESCRIPTION
     name: {
@@ -17,6 +19,7 @@ const stepSchema = new Schema({
       required: true,
     },
   });
+ */
 
 const RutineSchema = new Schema({
   title: {
@@ -29,57 +32,22 @@ const RutineSchema = new Schema({
     trim: true,
     required: true,
   },
-  image: {
-    //URL's
+  approach: {//enfoque
     type: String,
+    trim: true,
+    required: true
+    //default ?
   },
-  ageRange: {
-    min: {
-      type: Number,
-      required: true,
-    },
-    max: {
-      type: Number,
-      required: true,
-    },
+  level: {
+    type: String, //en rpincipio son facil, medio, muy dificil por ejemplo
+    trim: true,
+    required: true
   },
-  routineType: {
+  url: {
     type: String,
-    required: true,
-  },
-  bmiRange: {
-    min: {
-      type: Number,
-      required: true,
-    },
-    max: {
-      type: Number,
-      required: true,
-    },
-  },
-  waistToHipRatioRange: {
-    min: {
-      type: Number,
-      required: true,
-    },
-    max: {
-      type: Number,
-      required: true,
-    },
-  },
-  difficulty: {
-    type: String,
-    required: true,
-  },
-  calories: {
-    type: Number,
-    required: true,
-  },
-  routineTime: {
-    type: Number,
-    required: true,
-  },
-  steps: [stepSchema], // STEP'S ARRAY
+    trim: true,
+    required: true
+  }
 }, { timestamps: true });
 
 module.exports = Mongoose.model("Rutine", RutineSchema);
