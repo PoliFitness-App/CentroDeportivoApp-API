@@ -18,6 +18,51 @@ const userSchema = new Schema({
     trim: true,
     unique: true
   },
+  lastname: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true
+  },
+  imc: {
+    type: Number,
+    required: true,
+
+  },
+  icc: {
+    type: Number,
+    required: true
+  },
+  gender: {
+    type: Boolean, //True: Hombre, False: Mujer
+    required: true
+  },
+  /**En mostrar perfil se muestra la edad del usuario
+   * no se si habra alguna forma en que se cambie el valor en base a la fecha de nacimiento
+   * y la fecha actual, en cualquier caso que no sea posible
+   * en lugar de ser tipo Date seria tipo number y guardar solo la edad
+   */
+  birthday: {
+    type: Date,
+    required: true,
+    trim: true
+  },
+  weight: {// en kilogramos
+    type: Number,
+    required: true
+  },
+  height: {//en centimetros
+    type: Number,
+    required: true
+  },
+  waistP: {
+    type: Number,
+    required: true
+  },
+  hipP: {
+    type: Number,
+    required: true
+  },
   hashedPassword: {
     type: String,
     required: true
@@ -26,10 +71,6 @@ const userSchema = new Schema({
     type: String
   },
   tokens: {
-    type: [String],
-    default: []
-  },
-  roles: {
     type: [String],
     default: []
   }
