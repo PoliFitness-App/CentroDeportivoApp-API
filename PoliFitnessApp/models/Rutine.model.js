@@ -43,6 +43,11 @@ const RutineSchema = new Schema({
     trim: true,
     required: true
   },
+  category: {
+    type: String, //tren superior, brazos etc
+    trim: true,
+    required: true
+  },
   url: {
     type: String,
     trim: true,
