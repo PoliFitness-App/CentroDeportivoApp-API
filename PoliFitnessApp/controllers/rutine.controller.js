@@ -172,5 +172,13 @@ controller.getRoutineByTags = async (req, res) => {
     }
   }
 
+//GET RUTINE BY APPROACH
+
+
+//GET ROUTINE BY LEVEL
+
+
+//GET RUTINE BY -CHANGE-
+
 
 module.exports = controller;
