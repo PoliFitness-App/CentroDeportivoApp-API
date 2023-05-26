@@ -25,10 +25,12 @@ validators.registerValidator = [
   body("imc")
     .notEmpty().withMessage("Debe agregarse un imc")
     .min(5).withMessage("Debe ser mayor a 5")
-    .max(100).withMessage("Debe ser menor a 100"),
+    .max(100).withMessage("Debe ser menor a 100")
+    .isFloat().withMessage("Debe ingresarse un número flotante"),
   
   body("icc")
-    .notEmpty().withMessage("Debe agregarse un icc"),
+    .notEmpty().withMessage("Debe agregarse un icc")
+    .isFloat().withMessage("Debe ingresarse un número flotante"),
 
   body("birthday")
     .notEmpty().withMessage("Debe agregarse una fecha de nacimiento"),
@@ -36,16 +38,20 @@ validators.registerValidator = [
   body("weight")
     .notEmpty().withMessage("Debe ingresarse un peso")
     .min(10).withMessage("El peso mínimo es de 10kg")
-    .max(300).withMessage("El peso máximo es 300kg"),
+    .max(300).withMessage("El peso máximo es 300kg")
+    .isFloat().withMessage("Debe ingresarse un número flotante"),
 
   body("waistP")
-    .notEmpty().withMessage("debe ingresar el perímetro de cintura"),
+    .notEmpty().withMessage("debe ingresar el perímetro de cintura")
+    .isFloat().withMessage("Debe ingresarse un número flotante"),
 
   body("hipP")
-    .notEmpty().withMessage("Debe ingresar el perímetro de cadera"),
+    .notEmpty().withMessage("Debe ingresar el perímetro de cadera")
+    .isFloat().withMessage("Debe ingresarse un número flotante"),
 
   body("height")
     .notEmpty().withMessage("Debe ingresarse la altura")
+    .isFloat().withMessage("Debe ingresarse un número flotante")
 
 ]
 
