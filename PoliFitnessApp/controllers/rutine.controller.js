@@ -15,29 +15,17 @@ controller.createRutine = async (req, res) => {
         const { 
             title,
             description,
-            image,
-            ageRange,
-            routineType,
-            bmiRange,
-            waistToHipRatioRange,
-            difficulty,
-            calories,
-            routineTime,
-            steps
+            approach,
+            level,
+            url
         } = req.body;
 
         const rutine = new Rutine({
             title: title,
             description: description,
-            image: image,
-            ageRange: ageRange,
-            routineType: routineType,
-            bmiRange: bmiRange,
-            waistToHipRatioRange: waistToHipRatioRange,
-            difficulty: difficulty,
-            calories: calories,
-            routineTime: routineTime,
-            steps: steps
+            approach: approach,
+            level: level,
+            url: url
         });
 
         _rutine = await Rutine.findOne({ title: title});
@@ -133,6 +121,8 @@ controller.deleteRutineById = async (req, res) => {
 }
 
 // GET RUTINE BY TAGS - TO DO "AUN FALTA"
+//REVISAR------
+//EN PRINCIPIO YA NO SE OCUPA
 
 controller.getRoutineByTags = async (req, res) => {
     try {
@@ -171,6 +161,82 @@ controller.getRoutineByTags = async (req, res) => {
       res.status(500).json({ error: 'Ha ocurrido un error al obtener la rutina.' });
     }
   }
+
+//GET RUTINE BY APPROACH
+controller.getRoutineByApproach = async (req, res) => {
+    try {
+      // Obtener los parámetros de búsqueda desde la consulta de la URL
+      const {
+        approach
+      } = req.query;
+  
+  
+      // Buscar la rutina en base al approach(enfoque)
+      const routine = await Routine.findAll({
+        where: {
+          approach: approach
+        }
+      });
+  
+      // Responder con la rutina encontrada
+      res.status(200).json(routine);
+    } catch (error) {
+      // Manejo de errores
+      res.status(500).json({ error: 'Ha ocurrido un error al obtener la rutina.' });
+    }
+}
+
+
+//GET ROUTINE BY LEVEL
+controller.getRoutineByLevel = async (req, res) => {
+    try {
+      // Obtener los parámetros de búsqueda desde la consulta de la URL
+      const {
+        level
+      } = req.query;
+  
+  
+      // Buscar la rutina en base al nivel
+      const routine = await Routine.findAll({
+        where: {
+          level: level
+        }
+      });
+  
+      // Responder con la rutina encontrada
+      res.status(200).json(routine);
+    } catch (error) {
+      // Manejo de errores
+      res.status(500).json({ error: 'Ha ocurrido un error al obtener la rutina.' });
+    }
+}
+
+
+//GET RUTINE BY -CHANGE-
+controller.getRoutineByLevelAndCategory = async (req, res) => {
+    try {
+      // Obtener los parámetros de búsqueda desde la consulta de la URL
+      const {
+        level,
+        category
+      } = req.query;
+  
+  
+      // Buscar la rutina en base al nivel y categoria
+      const routine = await Routine.findAll({
+        where: {
+          level: level,
+          category: category
+        }
+      });
+  
+      // Responder con la rutina encontrada
+      res.status(200).json(routine);
+    } catch (error) {
+      // Manejo de errores
+      res.status(500).json({ error: 'Ha ocurrido un error al obtener la rutina.' });
+    }
+}
 
 
 module.exports = controller;
