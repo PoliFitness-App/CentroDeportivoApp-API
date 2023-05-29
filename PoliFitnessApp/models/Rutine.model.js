@@ -1,26 +1,6 @@
 const Mongoose = require("mongoose");
 const Schema = Mongoose.Schema;
 
-// TO DO : CONFIGURAR RUTINE SCHEMA
-
-// STEP SCHEMA
-
-/**
- * ya no se utiliza debido al formato
- * const stepSchema = new Schema({
-
-    // EACH STEP HAS A NAME AND A DESCRIPTION
-    name: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-  });
- */
-
 const RutineSchema = new Schema({
   title: {
     type: String,

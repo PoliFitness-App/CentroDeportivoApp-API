@@ -1,14 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-// AUN EN PROCESO...
-
-// const ROLES = require("../../data/roles.constants.json");
-
 // RUTINE CONTROLORES
 
 const rutineController = require("../../controllers/rutine.controller");
-
 
 // VALIDATORS
 
@@ -17,34 +12,73 @@ const runValidations = require("../../validators/index.middleware");
 
 // RUTAS
 
-// FIND ALL RUTINES
+/*
+* FIND ALL RUTINES
+*/
 
 router.get("/", rutineController.findAllRutines);
 
-// CREATE RUTINES
+/*
+* CREATE RUTINE
+*/
 
 router.post("/createRutine",
+    rutineValidators.createRutineValidator,
+    runValidations,
     rutineController.createRutine);
 
-// GET RUTINE BY TAGS -- TO  DO "AUN FALTA"
-
-// TO DO FITLTROS PARA LAS RUTINAS
-
-//router.get("/category", postController.findPostsByCategory);
-
-// FIND RUTINE BY ID
+/*
+* FIND RUTINE BY ID
+*/
 
 router.get("/getRutine",
     rutineValidators.findRutineByIdValidator,
     runValidations,
     rutineController.findRutineOneById);
 
-// DELETE RUTINE BY ID
+/*
+* FIND RUTINE BY CATEGORY
+*/
 
-router.delete("/deleteRutine",
+router.get("/getRutineByCategory",
+    rutineValidators.findRoutineByCategoryValidator,
+    runValidations,
+    rutineController.findRoutineByCategory);
+
+/*
+* DELETE RUTINE BY ID
+*/
+
+router.patch("/deleteRutine:identifier",
     rutineValidators.findRutineByIdValidator,
     runValidations,
     rutineController.deleteRutineById);
 
+/*
+* GET RUTINE BY APROACH
+*/
+
+router.get("/getRutineByAproach",
+    rutineValidators.getRoutineByApproachValidator,
+    runValidations,
+    rutineController.getRoutineByApproach);
+
+/*
+* GET RUTINE BY LEVEL
+*/
+
+router.get("/getRutineByLevel",
+    rutineValidators.getRoutineByLevelValidator,
+    runValidations,
+    rutineController.getRoutineByLevel);
+
+/*
+* GET RUTINE BY LEVEL AND CATEGORY
+*/
+
+router.get("/getRutineByLevelAndCategory",
+    rutineValidators.getRoutineByCategoryAndLevelValidator,
+    runValidations,
+    rutineController.getRoutineByLevelAndCategory);
 
 module.exports = router;
