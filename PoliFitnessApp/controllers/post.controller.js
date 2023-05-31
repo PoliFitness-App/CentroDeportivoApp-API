@@ -3,17 +3,19 @@ const debug = require("debug")("app:post-controller");
 
 const controller = {};
 
-// CREATE POST 
+/*
+* CREATE POST
+*/
 
 controller.createPost = async (req, res) => {
   try {
     const { title, description, image, category } = req.body;
-    
+
     const post = new Post({
       title: title,
       description: description,
       image: image,
-      category : category
+      category: category
     });
 
     _post = await Post.findOne({ title: title, hidden: false });
@@ -35,7 +37,9 @@ controller.createPost = async (req, res) => {
   }
 }
 
-// FIND ALL POST's
+/*
+* DELETE POST BY ID
+*/
 
 controller.findAllPosts = async (req, res) => {
   try {
@@ -65,72 +69,57 @@ controller.findPostsByCategory = async (req, res) => {
   }
 }
 
-// FIND POST BY ID
+/*
+* FIND POST BY ID
+*/
 
 controller.findOneById = async (req, res) => {
   try {
-    const { identifier } = req.body;
+    const { identifier: postID } = req.params;
 
-    const post = await Post.findById(identifier)
+    const post = await Post.findOne({ _id: postID });
 
     if (!post) {
-      return res.status(404).json({ error: "Post no encontrado" });
+      return res.status(404).json({ error: "Noticia no encontrado" });
     }
 
-    return res.status(200).json(post);
+    return res.status(200).json({post});
   } catch (error) {
     debug({ error });
     return res.status(500).json({ error: "Error interno de servidor" });
   }
 }
 
-// TOGGLE POST VISIBILITY
+/*
+* DELETE POST BY ID
+*/
 
 controller.togglePostVisibility = async (req, res) => {
   try {
-    const { identifier: postId } = req.params;
-    const { _id: userId } = req.user;
+    const { identifier: postID } = req.params;
 
     //Paso 01: Obtenemos el post
     //Paso 02: Verificamos la pertenencia del post al usuario
-    const post = await Post.findOne({ _id: postId});
+
+    const post = await Post.findOne({ _id: postID });
 
     if (!post) {
       return res.status(404).json({ error: "Post no encontrado" });
     }
-
     //Paso 03: Modifico el valor
+
     post.hidden = !post.hidden;
 
     //Paso 04: Guardo los cambios
+
     await post.save();
 
-    return res.status(200).json({ message: "Noticia actualizada" })
+    return res.status(200).json({ message: "Noticia eliminada correctamente" })
   } catch (error) {
     debug({ error });
     return res.status(500).json({ error: "Error interno de servidor" });
   }
 }
-
-// DELETE POST BY ID 
-
-controller.deletePostById = async (req, res) => {
-    try {
-      const { identifier } = req.body;
-  
-      const post = await Post
-        .deleteOne({_id: identifier})
-  
-      if (!post) {
-        return res.status(404).json({ error: "Noticia no encontrada" });
-      }
-  
-      return res.status(200).json({ Done: "Noticia eleminada correctamente!" });
-    } catch (error) {
-      debug({ error });
-      return res.status(500).json({ error: "Error interno de servidor" });
-    }
-  }
 
 
 module.exports = controller;

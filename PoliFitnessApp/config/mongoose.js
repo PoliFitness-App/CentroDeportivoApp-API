@@ -3,7 +3,7 @@ const debug = require("debug")("app:mongoose");
 
 const dbhost = process.env.DBHOST || "localhost";
 const dbport = process.env.DBPORT || "6152";
-const dbname = process.env.DBNAME || "polifitness-app"
+const dbname = process.env.DBNAME || "centrodeportivo-app"
 
 const dburi = process.env.DBURI || `mongodb://${dbhost}:${dbport}/${dbname}`;
 
