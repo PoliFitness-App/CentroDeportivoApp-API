@@ -6,28 +6,47 @@ const { createToken, verifyToken } = require("../utils/jwt.tools");
 
 const controller = {};
 
-// REGISTRAR AL USUARIO 
+/*
+* USER REGISTER
+*/
 
 controller.register = async (req, res) => {
   try {
-    //Paso 01: Obtener los datos del usuario -> Req -> body
-    const { username, email, password } = req.body;
 
-    //Paso 02: Verificar que el username o el email estén libres
+   // REQ.BODY = USER DATA
+
+    const { username, lastname, email, password, imc, icc, gender, birthday, weight, height,waistP,hipP } = req.body;
+
+    // VALIDATE USER 
+
     const user = await User.findOne({ $or: [{ username: username }, { email: email }] });
+
+    // IF USER EXISTS
 
     if (user) {
       return res.status(409).json({ error: "Este usuario ya existe" });
     }
 
-    //debug({ username, email, password })
-    //Paso 03: Encriptar? No puedo guardar una contraseña tal cual
-    //Paso 04: Guardar mi usuario
+    /*
+    * IF USER DOESN'T EXIST
+    * CREATE NEW USER
+    * SAVE NEW USER
+    * RETURN SUCCESS MESSAGE
+    */
 
     const newUser = new User({
       username: username,
+      lastname: lastname,
       email: email,
       password: password,
+      imc: imc,
+      icc: icc,
+      gender: gender,
+      birthday: birthday,
+      weight: weight,
+      height: height,
+      waistP: waistP,
+      hipP: hipP,
       roles: [ROLES.USER]
     })
 
@@ -40,7 +59,9 @@ controller.register = async (req, res) => {
   }
 }
 
-// LOGUEAR AL USUARIO
+/*
+* LOG IN USER
+*/
 
 controller.login = async (req, res) => {
   try {
@@ -73,16 +94,96 @@ controller.login = async (req, res) => {
   }
 }
 
-// QUIEN SOY?
+/*
+* WHO AM I
+*/
 
 controller.whoami = async (req, res) => {
   try {
-    const { _id, username, email, roles } = req.user;
-    return res.status(200).json({ _id, username, email, roles });
+    const { _id, username, email, roles, lastname, imc, icc, gender, birthday, weight, height,waistP,hipP } = req.user;
+    return res.status(200).json({ _id, username, email, roles, lastname, imc, icc, gender , birthday, weight, height,waistP,hipP});
   } catch (error) {
     debug(error);
     return res.status(500).json({ error: "Error inesperado" })
   }
 }
+
+/*
+* SET USER DATA
+*/
+
+controller.updateUserData = async (req, res) => {
+  try {
+      const { _id, gender, birthday, weight, height, waistP, hipP} = req.body;
+
+      // FIND USER BY ID
+
+      const user = await User.findOne({ _id: _id });
+
+      // IF USER DOESN'T EXIST
+
+      if (!user) {
+        return res.status(404).json({ error: "El usuario no existe" });
+      }
+
+      // IF USER EXISTS
+      // UPDATE USER DATA
+
+      user.gender = gender
+      user.birthday = birthday
+      user.weight = weight
+      user.height = height
+      user.waistP = waistP
+      user.hipP = hipP
+
+      // SAVE USER
+
+      await user.save();
+
+      return res.status(200).json({ message: "Datos actualizados con éxito!" });
+
+  } catch (error) {
+    debug(error);
+    return res.status(500).json({ error: "Error inesperado" })
+  }
+}
+
+/*
+*  SET IMC AND ICC
+*/
+
+controller.updateIccImc = async (req, res) => {
+  try {
+      const { _id, icc, imc} = req.body;
+
+      // FIND USER BY ID
+
+      const user = await User.findOne({ _id: _id });
+
+      // IF USER DOESN'T EXIST
+
+      if (!user) {
+        return res.status(404).json({ error: "El usuario no existe" });
+      }
+
+      // IF USER EXISTS
+      // UPDATE USER DATA
+
+      user.icc = icc
+      user.imc = imc
+
+      // SAVE USER
+
+      await user.save();
+
+      return res.status(200).json({ message: "Datos actualizados con éxito!" });
+
+  } catch (error) {
+    debug(error);
+    return res.status(500).json({ error: "Error inesperado" })
+  }
+}
+
+
 
 module.exports = controller;

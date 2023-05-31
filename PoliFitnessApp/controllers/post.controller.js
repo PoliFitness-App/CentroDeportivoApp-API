@@ -3,7 +3,9 @@ const debug = require("debug")("app:post-controller");
 
 const controller = {};
 
-// CREATE POST 
+/*
+* CREATE POST
+*/
 
 controller.createPost = async (req, res) => {
   try {
@@ -35,7 +37,9 @@ controller.createPost = async (req, res) => {
   }
 }
 
-// FIND ALL POST's
+/*
+* DELETE POST BY ID
+*/
 
 controller.findAllPosts = async (req, res) => {
   try {
@@ -65,7 +69,9 @@ controller.findPostsByCategory = async (req, res) => {
   }
 }
 
-// FIND POST BY ID
+/*
+* FIND POST BY ID
+*/
 
 controller.findOneById = async (req, res) => {
   try {
@@ -84,7 +90,9 @@ controller.findOneById = async (req, res) => {
   }
 }
 
-// DELETE POST BY ID 
+/*
+* DELETE POST BY ID
+*/
 
 controller.togglePostVisibility = async (req, res) => {
   try {

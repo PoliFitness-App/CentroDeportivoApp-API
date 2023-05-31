@@ -24,7 +24,7 @@ validators.registerValidator = [
 
   body("imc")
     .notEmpty().withMessage("Debe agregarse un imc")
-    .isFloat({ min: 5, max: 100 }).withMessage("Debe ingresarse un número flotante, debe ser mayor a 5 y menor a 100"),
+    .isFloat({ min: 0, max: 50 }).withMessage("Debe ingresarse un número flotante, debe ser mayor a 0 y menor a 50"),
   
   body("icc")
     .notEmpty().withMessage("Debe agregarse un icc")
