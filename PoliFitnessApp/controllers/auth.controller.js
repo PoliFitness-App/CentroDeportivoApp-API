@@ -15,7 +15,7 @@ controller.register = async (req, res) => {
 
    // REQ.BODY = USER DATA
 
-    const { username, lastname, email, password, imc, icc, gender, birthday, weight, height,waistP,hipP } = req.body;
+    const { username, lastname, email, password, imc, icc, gender, birthday, weight, height,waistP,hipP, approach } = req.body;
 
     // VALIDATE USER 
 
@@ -29,9 +29,9 @@ controller.register = async (req, res) => {
 
     /*
     * IF USER DOESN'T EXIST
-    * CREATE NEW USER
-    * SAVE NEW USER
-    * RETURN SUCCESS MESSAGE
+    * 1. CREATE NEW USER
+    * 2. SAVE NEW USER
+    * 3. RETURN SUCCESS MESSAGE
     */
 
     const newUser = new User({
@@ -47,6 +47,7 @@ controller.register = async (req, res) => {
       height: height,
       waistP: waistP,
       hipP: hipP,
+      approach: approach,
       roles: [ROLES.USER]
     })
 

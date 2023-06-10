@@ -28,6 +28,15 @@ const RutineSchema = new Schema({
     trim: true,
     required: true
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
+  hidden: {
+    type: Boolean,
+    default: false
+  },
   url: {
     type: String,
     trim: true,
