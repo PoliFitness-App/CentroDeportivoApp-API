@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const ROLES = require("../../data/roles.constants.json");
+
 // RUTINE CONTROLORES
 
 const rutineController = require("../../controllers/rutine.controller");
@@ -19,10 +21,18 @@ const runValidations = require("../../validators/index.middleware");
 router.get("/", rutineController.findAllRutines);
 
 /*
+* AUTH MIDDLEWARES
+*/
+
+const { authentication, authorization } = require('../../middlewares/auth.middewares');
+
+/*
 * CREATE RUTINE
 */
 
 router.post("/createRutine",
+    authentication,
+    authorization(ROLES.ADMIN),
     rutineValidators.createRutineValidator,
     runValidations,
     rutineController.createRutine);
@@ -31,7 +41,7 @@ router.post("/createRutine",
 * FIND RUTINE BY ID
 */
 
-router.get("/getRutine",
+router.patch("/getRutine:identifier",
     rutineValidators.findRutineByIdValidator,
     runValidations,
     rutineController.findRutineOneById);
@@ -49,10 +59,12 @@ router.get("/getRutineByCategory",
 * DELETE RUTINE BY ID
 */
 
-router.patch("/deleteRutine:identifier",
+router.patch("/deleteRoutine/:identifier",
+    authentication,
+    authorization(ROLES.ADMIN),
     rutineValidators.findRutineByIdValidator,
     runValidations,
-    rutineController.deleteRutineById);
+    rutineController.toggleRoutineVisibility);
 
 /*
 * GET RUTINE BY APROACH

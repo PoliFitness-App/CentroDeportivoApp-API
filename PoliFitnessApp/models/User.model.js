@@ -67,7 +67,10 @@ const userSchema = new Schema({
     type: Number,
     required: true
   },
-
+  approach: {
+    type: String,
+    required: true
+  },
   /*
   * PASSWORD DATA
   */

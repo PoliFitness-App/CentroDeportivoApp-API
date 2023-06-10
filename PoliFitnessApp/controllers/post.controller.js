@@ -10,12 +10,14 @@ const controller = {};
 controller.createPost = async (req, res) => {
   try {
     const { title, description, image, category } = req.body;
+    const { _id: userId } = req.user;
 
     const post = new Post({
       title: title,
       description: description,
       image: image,
-      category: category
+      category: category,
+      user: userId
     });
 
     _post = await Post.findOne({ title: title, hidden: false });
@@ -38,7 +40,7 @@ controller.createPost = async (req, res) => {
 }
 
 /*
-* DELETE POST BY ID
+* FIND ALL POST
 */
 
 controller.findAllPosts = async (req, res) => {

@@ -21,13 +21,16 @@ controller.createRutine = async (req, res) => {
       url
     } = req.body;
 
+    const { _id: userId } = req.user;
+
     const rutine = new Rutine({
       title: title,
       description: description,
       approach: approach,
       level: level,
       category: category,
-      url: url
+      url: url,
+      user: userId
     });
 
     _rutine = await Rutine.findOne({ title: title });
@@ -57,7 +60,7 @@ controller.findAllRutines = async (req, res) => {
   try {
     const rutines =
       await Rutine
-        .find()
+        .find({ hidden: false })
 
     return res.status(200).json({ rutines });
   } catch (error) {
@@ -76,7 +79,7 @@ controller.findRoutineByCategory = async (req, res) => {
   try {
     const { category } = req.body;
 
-    const routine = await Rutine.find({ category: category });
+    const routine = await Rutine.find({ category: category, hidden: false});
 
     return res.status(200).json({ routine });
   } catch (error) {
@@ -94,7 +97,7 @@ controller.findRutineOneById = async (req, res) => {
     const { id } = req.body;
 
     const rutine = await Rutine
-      .findOne({ _id: id })
+      .findOne({ _id: id, hidden: false})
 
     if (!rutine) {
       return res.status(404).json({ error: "Rutina no encontrada" });
@@ -108,26 +111,36 @@ controller.findRutineOneById = async (req, res) => {
 }
 
 /*
-DELETE RUTINE BY ID 
+  UPDATE RUTINE BY ID
 */
 
-controller.deleteRutineById = async (req, res) => {
+controller.toggleRoutineVisibility = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { identifier: postID } = req.params;
 
-    const rutine = await Rutine
-      .deleteOne({ _id: id })
+    //Paso 01: Obtenemos el post
+    //Paso 02: Verificamos la pertenencia del post al usuario
 
-    if (!rutine) {
-      return res.status(404).json({ error: "Rutina no encontrada" });
+    const routine = await Rutine.findOne({ _id: postID });
+
+    if (!routine) {
+      return res.status(404).json({ error: "Post no encontrado" });
     }
+    //Paso 03: Modifico el valor
 
-    return res.status(200).json({ Done: "Rutina eleminada correctamente!" });
+    routine.hidden = !routine.hidden;
+
+    //Paso 04: Guardo los cambios
+
+    await routine.save();
+
+    return res.status(200).json({ message: "Rutina eliminada correctamente" })
   } catch (error) {
     debug({ error });
     return res.status(500).json({ error: "Error interno de servidor" });
   }
 }
+
 
 /*
 GET RUTINE BY APPROACH
@@ -141,7 +154,7 @@ controller.getRoutineByApproach = async (req, res) => {
     } = req.body;
 
     // Buscar la rutina en base al approach(enfoque)
-    const routine = await Rutine.find({ approach: approach });
+    const routine = await Rutine.find({ approach: approach, hidden: false });
 
     // Responder con la rutina encontrada
     res.status(200).json({routine});
@@ -163,7 +176,7 @@ controller.getRoutineByLevel = async (req, res) => {
     } = req.body;
 
     // Buscar la rutina en base al nivel
-    const routine = await Rutine.find({ level: level });
+    const routine = await Rutine.find({ level: level, hidden: false});
 
     // Responder con la rutina encontrada
     res.status(200).json({routine});
@@ -186,7 +199,7 @@ controller.getRoutineByLevelAndCategory = async (req, res) => {
     } = req.body;
 
     // Buscar la rutina en base al nivel y categoria
-    const routine = await Rutine.find({ level: level, category: category });
+    const routine = await Rutine.find({ level: level, category: category, hidden: false });
 
     // Responder con la rutina encontrada
     res.status(200).json({routine});

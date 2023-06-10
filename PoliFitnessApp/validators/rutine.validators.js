@@ -32,11 +32,9 @@ validators.createRutineValidator = [
 */
 
 validators.findRutineByIdValidator = [
-  
-  body("id")
+  param("identifier")
     .notEmpty().withMessage("El id no debe de ir vacío")
     .isMongoId().withMessage("El id debe de ser de mongo")
-
 ]
 
 /*

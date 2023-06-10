@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-//const ROLES = require("../../data/roles.constants.json");
+const ROLES = require("../../data/roles.constants.json");
 
 /*
 * POST CONTROLLERS
@@ -15,6 +15,12 @@ const postController = require("../../controllers/post.controller")
 
 const postValidators = require("../../validators/post.validators");
 const runValidations = require("../../validators/index.middleware");
+
+/*
+* AUTH MIDDLEWARES
+*/
+
+const { authentication, authorization } = require('../../middlewares/auth.middewares');
 
 /*
 * POST ROUTES
@@ -31,6 +37,8 @@ router.get("/", postController.findAllPosts);
 */
 
 router.post("/createPost",
+    authentication,
+    authorization(ROLES.ADMIN),
     postValidators.createPostValidator,
     runValidations,
     postController.createPost);
@@ -58,6 +66,8 @@ router.patch("/getPost/:identifier",
 */
 
 router.patch("/deletePost/:identifier",
+    authentication,
+    authorization(ROLES.ADMIN),
     postValidators.deletePostByIdValidator,
     runValidations,
     postController.togglePostVisibility);
