@@ -5,11 +5,11 @@ const ROLES = require("../../data/roles.constants.json");
 
 // RUTINE CONTROLORES
 
-const rutineController = require("../../controllers/rutine.controller");
+const routineController = require("../../controllers/rutine.controller");
 
 // VALIDATORS
 
-const rutineValidators = require("../../validators/rutine.validators");
+const routineValidators = require("../../validators/rutine.validators");
 const runValidations = require("../../validators/index.middleware");
 
 // RUTAS
@@ -18,7 +18,7 @@ const runValidations = require("../../validators/index.middleware");
 * FIND ALL RUTINES
 */
 
-router.get("/", rutineController.findAllRutines);
+router.get("/", routineController.findAllRoutines);
 
 /*
 * AUTH MIDDLEWARES
@@ -30,30 +30,30 @@ const { authentication, authorization } = require('../../middlewares/auth.middew
 * CREATE RUTINE
 */
 
-router.post("/createRutine",
+router.post("/createRoutine",
     authentication,
     authorization(ROLES.ADMIN),
-    rutineValidators.createRutineValidator,
+    routineValidators.createRutineValidator,
     runValidations,
-    rutineController.createRutine);
+    routineController.createRutine);
 
 /*
 * FIND RUTINE BY ID
 */
 
-router.patch("/getRutine:identifier",
-    rutineValidators.findRutineByIdValidator,
+router.patch("/getRoutine/:identifier",
+    routineValidators.findRutineByIdValidator,
     runValidations,
-    rutineController.findRutineOneById);
+    routineController.findRutineOneById);
 
 /*
 * FIND RUTINE BY CATEGORY
 */
 
-router.get("/getRutineByCategory",
-    rutineValidators.findRoutineByCategoryValidator,
+router.get("/getRoutineByCategory",
+    routineValidators.findRoutineByCategoryValidator,
     runValidations,
-    rutineController.findRoutineByCategory);
+    routineController.findRoutineByCategory);
 
 /*
 * DELETE RUTINE BY ID
@@ -62,35 +62,35 @@ router.get("/getRutineByCategory",
 router.patch("/deleteRoutine/:identifier",
     authentication,
     authorization(ROLES.ADMIN),
-    rutineValidators.findRutineByIdValidator,
+    routineValidators.findRutineByIdValidator,
     runValidations,
-    rutineController.toggleRoutineVisibility);
+    routineController.toggleRoutineVisibility);
 
 /*
 * GET RUTINE BY APROACH
 */
 
-router.get("/getRutineByAproach",
-    rutineValidators.getRoutineByApproachValidator,
+router.get("/getRoutineByAproach",
+    routineValidators.getRoutineByApproachValidator,
     runValidations,
-    rutineController.getRoutineByApproach);
+    routineController.getRoutineByApproach);
 
 /*
 * GET RUTINE BY LEVEL
 */
 
-router.get("/getRutineByLevel",
-    rutineValidators.getRoutineByLevelValidator,
+router.get("/getRoutineByLevel",
+    routineValidators.getRoutineByLevelValidator,
     runValidations,
-    rutineController.getRoutineByLevel);
+    routineController.getRoutineByLevel);
 
 /*
 * GET RUTINE BY LEVEL AND CATEGORY
 */
 
-router.get("/getRutineByLevelAndCategory",
-    rutineValidators.getRoutineByCategoryAndLevelValidator,
+router.get("/getRoutineByLevelAndCategory",
+    routineValidators.getRoutineByCategoryAndLevelValidator,
     runValidations,
-    rutineController.getRoutineByLevelAndCategory);
+    routineController.getRoutineByLevelAndCategory);
 
 module.exports = router;
