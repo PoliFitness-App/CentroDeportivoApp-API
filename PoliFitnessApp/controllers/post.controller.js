@@ -45,16 +45,24 @@ controller.createPost = async (req, res) => {
 
 controller.findAllPosts = async (req, res) => {
   try {
-    const posts =
-      await Post
-        .find({ hidden: false })
+    const page = parseInt(req.query.page) || 1; // Obtener el número de página de los parámetros de consulta
+    const limit = parseInt(req.query.limit) || 10; // Establecer un límite de elementos por página (por defecto 10)
 
-    return res.status(200).json({ posts });
+    const count = await Post.countDocuments({ hidden: false }); // Obtener el número total de publicaciones no ocultas
+
+    const posts = await Post.find({ hidden: false })
+        .skip((page - 1) * limit) // Saltar los documentos anteriores según la página y el límite
+        .limit(limit); // Limitar el número de documentos por página
+
+    const totalPages = Math.ceil(count / limit); // Calcular el número total de páginas
+
+    return res.status(200).json({ posts, totalPages, currentPage: page });
   } catch (error) {
-    debug({ error });
+    console.error(error);
     return res.status(500).json({ error: "Error interno de servidor" });
   }
-}
+};
+
 
 // FIND POST BY CATEGORY
 
