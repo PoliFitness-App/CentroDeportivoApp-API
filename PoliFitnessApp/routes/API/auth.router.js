@@ -16,4 +16,9 @@ router.post("/signin", authController.login);
 
 router.get("/whoami", authentication, authController.whoami);
 
+router.post("/update",
+    authentication,
+    authController.updateUserData
+);
+
 module.exports = router;

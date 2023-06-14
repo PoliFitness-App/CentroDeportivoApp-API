@@ -114,40 +114,39 @@ controller.whoami = async (req, res) => {
 */
 
 controller.updateUserData = async (req, res) => {
-  try {
-      const { _id, gender, birthday, weight, height, waistP, hipP} = req.body;
+    try {
+        const { _id, weight, height, waistP, hipP} = req.body;
 
-      // FIND USER BY ID
+        // FIND USER BY ID
 
-      const user = await User.findOne({ _id: _id });
+        const user = await User.findOne({ _id: _id });
 
-      // IF USER DOESN'T EXIST
+        // IF USER DOESN'T EXIST
 
-      if (!user) {
-        return res.status(404).json({ error: "El usuario no existe" });
-      }
+        if (!user) {
+            return res.status(404).json({ error: "El usuario no existe" });
+        }
 
-      // IF USER EXISTS
-      // UPDATE USER DATA
+        // IF USER EXISTS
+        // UPDATE USER DATA
 
-      user.gender = gender
-      user.birthday = birthday
-      user.weight = weight
-      user.height = height
-      user.waistP = waistP
-      user.hipP = hipP
+        user.weight = weight
+        user.height = height
+        user.waistP = waistP
+        user.hipP = hipP
 
-      // SAVE USER
+        // SAVE USER
 
-      await user.save();
+        await user.save();
+        
+        return res.status(200).json({_id, weight, height, waistP, hipP,message: "Datos actualizados con éxito!"});
 
-      return res.status(200).json({ message: "Datos actualizados con éxito!" });
-
-  } catch (error) {
-    debug(error);
-    return res.status(500).json({ error: "Error inesperado" })
-  }
+    } catch (error) {
+        debug(error);
+        return res.status(500).json({ error: "Error inesperado" })
+    }
 }
+
 
 /*
 *  SET IMC AND ICC
