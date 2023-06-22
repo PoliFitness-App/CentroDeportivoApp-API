@@ -17,8 +17,11 @@ controller.createRutine = async (req, res) => {
             approach,
             level,
             category,
-            url
+            url,
+            steps
         } = req.body;
+
+        debug({title, description, approach, level, category, url, steps})
 
         const {_id: userId} = req.user;
 
@@ -29,7 +32,8 @@ controller.createRutine = async (req, res) => {
             level: level,
             category: category,
             url: url,
-            user: userId
+            user: userId,
+            steps: steps
         });
 
         _rutine = await Rutine.findOne({title: title});
