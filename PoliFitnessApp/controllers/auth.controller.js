@@ -115,7 +115,7 @@ controller.whoami = async (req, res) => {
 
 controller.updateUserData = async (req, res) => {
     try {
-        const { _id, weight, height, waistP, hipP} = req.body;
+        const { _id, weight, height, waistP, hipP, approach, icc, imc } = req.body;
 
         // FIND USER BY ID
 
@@ -134,12 +134,15 @@ controller.updateUserData = async (req, res) => {
         user.height = height
         user.waistP = waistP
         user.hipP = hipP
+        user.approach = approach
+        user.icc = icc
+        user.imc = imc
 
         // SAVE USER
 
         await user.save();
         
-        return res.status(200).json({_id, weight, height, waistP, hipP,message: "Datos actualizados con éxito!"});
+        return res.status(200).json({_id, weight, height, waistP, hipP,approach,icc,imc, message: "Datos actualizados con éxito!"});
 
     } catch (error) {
         debug(error);
