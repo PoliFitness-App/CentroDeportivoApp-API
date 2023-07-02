@@ -33,4 +33,8 @@ router.get("/",
     authController.findAllUser
 );
 
+router.patch("/deleteUser/:identifier",
+    authentication,
+    authController.deleteUser);
+
 module.exports = router;
