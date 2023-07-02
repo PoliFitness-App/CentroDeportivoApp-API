@@ -245,5 +245,39 @@ controller.updateRol = async (req, res) => {
   }
 }
 
+/*
+*  DELETE USER
+*/
+
+controller.deleteUser = async (req, res) => {
+  try {
+    const {identifier: userID} = req.params;
+
+      // FIND USER BY ID
+
+      const user = await User.findOne({ _id: userID });
+
+      // IF USER DOESN'T EXIST
+
+      if (!user) {
+        return res.status(404).json({ error: "El usuario no existe" });
+      }
+
+      // IF USER EXISTS
+      // DELETE USER
+
+      await user.deleteOne();
+
+      return res.status(200).json({ message: "Usuario eliminado con éxito!" });
+
+  } catch (error) {
+    debug(error);
+    return res.status(500).json({ error: "Error inesperado" })
+  }
+}
+
+
+
+
 
 module.exports = controller;
