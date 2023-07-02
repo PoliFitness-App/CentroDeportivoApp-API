@@ -50,4 +50,13 @@ validators.registerValidator = [
     .isFloat().withMessage("Debe ingresarse un número flotante")
 ]
 
+validators.updateRolValidator = [
+  body("_id")
+    .notEmpty().withMessage("El id no puede ir vacío")
+    .isMongoId().withMessage("El id debe ser un mongoId"),
+  body("roles")
+    .notEmpty().withMessage("El rol no puede ir vacío")
+    .isIn(["admin", "user"]).withMessage("El rol debe ser ADMIN o USER")
+]
+
 module.exports = validators;

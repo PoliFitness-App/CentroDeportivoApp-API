@@ -187,6 +187,63 @@ controller.updateIccImc = async (req, res) => {
   }
 }
 
+/*
+*  FIND ALL USER's
+*/
+
+controller.findAllUser = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1; // Obtener el número de página de los parámetros de consulta
+    const limit = parseInt(req.query.limit) || 10; // Establecer un límite de elementos por página (por defecto 10)
+
+    const count = await User.countDocuments({ hidden: false }); // Obtener el número total de publicaciones no ocultas
+
+    const users = await User.find()
+        .skip((page - 1) * limit) // Saltar los documentos anteriores según la página y el límite
+        .limit(limit); // Limitar el número de documentos por página
+
+    const totalPages = Math.ceil(count / limit); // Calcular el número total de páginas
+
+    return res.status(200).json({ users, totalPages, currentPage: page });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error interno de servidor" });
+  }
+};
+
+/*
+*  UPDATE USER ROL
+*/
+
+controller.updateRol = async (req, res) => {
+  try {
+      const { _id, roles} = req.body;
+
+      // FIND USER BY ID
+
+      const user = await User.findOne({ _id: _id });
+
+      // IF USER DOESN'T EXIST
+
+      if (!user) {
+        return res.status(404).json({ error: "El usuario no existe" });
+      }
+
+      // IF USER EXISTS
+      // UPDATE USER DATA
+
+      user.roles = roles
+      // SAVE USER
+
+      await user.save();
+
+      return res.status(200).json({ message: "Rol actualizado con éxito!" });
+
+  } catch (error) {
+    debug(error);
+    return res.status(500).json({ error: "Error inesperado" })
+  }
+}
 
 
 module.exports = controller;
