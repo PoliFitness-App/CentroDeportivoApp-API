@@ -24,5 +24,3 @@ $ cd PoliFitnessApp/
 $ npm install
 $ npm start
 ```
-## FAQs
-***
