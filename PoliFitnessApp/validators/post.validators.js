@@ -1,6 +1,10 @@
 const { body, param } = require("express-validator");
 const validators = {};
 
+/*
+* VALIDATE CREATE POST
+*/
+
 validators.createPostValidator = [
 
   // VALIDATE TITLE
@@ -29,11 +33,40 @@ validators.createPostValidator = [
     .notEmpty().withMessage("La categoría no debe de ser vacía")
 ];
 
+/*
+* VALIDATE FIND POST BY ID
+*/
+
 validators.findPostByIdValidator = [
   
-  body("identifier")
+  param("identifier")
     .notEmpty().withMessage("El id no debe de ir vacío")
     .isMongoId().withMessage("El id debe de ser de mongo")
+
+]
+
+/*
+* VALIDATE DELETE POST BY ID
+*/
+
+validators.deletePostByIdValidator = [
+  param("identifier")
+  .notEmpty().withMessage("El id no debe de ir vacío")
+  .isMongoId().withMessage("El id debe de ser de mongo")
+]
+
+
+/*
+* VALIDATE GET POST BY CATEGORY
+*/
+
+validators.findPostByCategoryValidator = [
+
+  // VALIDATE CATEGORY
+
+  body("category")
+    .notEmpty().withMessage("La categoría no debe de ser vacía")
+    //.isIn(["Futbol", "Actividades", "Volleyball"]).withMessage("La categoría debe de ser Nutrición, Ejercicio o Salud")
 
 ]
 

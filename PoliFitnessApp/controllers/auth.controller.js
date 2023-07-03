@@ -6,28 +6,48 @@ const { createToken, verifyToken } = require("../utils/jwt.tools");
 
 const controller = {};
 
-// REGISTRAR AL USUARIO 
+/*
+* USER REGISTER
+*/
 
 controller.register = async (req, res) => {
   try {
-    //Paso 01: Obtener los datos del usuario -> Req -> body
-    const { username, email, password } = req.body;
 
-    //Paso 02: Verificar que el username o el email estén libres
+   // REQ.BODY = USER DATA
+
+    const { username, lastname, email, password, imc, icc, gender, birthday, weight, height,waistP,hipP, approach } = req.body;
+
+    // VALIDATE USER 
+
     const user = await User.findOne({ $or: [{ username: username }, { email: email }] });
+
+    // IF USER EXISTS
 
     if (user) {
       return res.status(409).json({ error: "Este usuario ya existe" });
     }
 
-    //debug({ username, email, password })
-    //Paso 03: Encriptar? No puedo guardar una contraseña tal cual
-    //Paso 04: Guardar mi usuario
+    /*
+    * IF USER DOESN'T EXIST
+    * 1. CREATE NEW USER
+    * 2. SAVE NEW USER
+    * 3. RETURN SUCCESS MESSAGE
+    */
 
     const newUser = new User({
       username: username,
+      lastname: lastname,
       email: email,
       password: password,
+      imc: imc,
+      icc: icc,
+      gender: gender,
+      birthday: birthday,
+      weight: weight,
+      height: height,
+      waistP: waistP,
+      hipP: hipP,
+      approach: approach,
       roles: [ROLES.USER]
     })
 
@@ -40,7 +60,9 @@ controller.register = async (req, res) => {
   }
 }
 
-// LOGUEAR AL USUARIO
+/*
+* LOG IN USER
+*/
 
 controller.login = async (req, res) => {
   try {
@@ -73,16 +95,189 @@ controller.login = async (req, res) => {
   }
 }
 
-// QUIEN SOY?
+/*
+* WHO AM I
+*/
 
 controller.whoami = async (req, res) => {
   try {
-    const { _id, username, email, roles } = req.user;
-    return res.status(200).json({ _id, username, email, roles });
+    const { _id, username, email, roles, lastname, imc, icc, gender, birthday, weight, height,waistP,hipP, approach } = req.user;
+    return res.status(200).json({ _id, username, email, roles, lastname, imc, icc, gender , birthday, weight, height,waistP,hipP, approach});
   } catch (error) {
     debug(error);
     return res.status(500).json({ error: "Error inesperado" })
   }
 }
+
+/*
+* SET USER DATA
+*/
+
+controller.updateUserData = async (req, res) => {
+    try {
+        const { _id, weight, height, waistP, hipP, approach, icc, imc } = req.body;
+
+        // FIND USER BY ID
+
+        const user = await User.findOne({ _id: _id });
+
+        // IF USER DOESN'T EXIST
+
+        if (!user) {
+            return res.status(404).json({ error: "El usuario no existe" });
+        }
+
+        // IF USER EXISTS
+        // UPDATE USER DATA
+
+        user.weight = weight
+        user.height = height
+        user.waistP = waistP
+        user.hipP = hipP
+        user.approach = approach
+        user.icc = icc
+        user.imc = imc
+
+        // SAVE USER
+
+        await user.save();
+        
+        return res.status(200).json({_id, weight, height, waistP, hipP,approach,icc,imc, message: "Datos actualizados con éxito!"});
+
+    } catch (error) {
+        debug(error);
+        return res.status(500).json({ error: "Error inesperado" })
+    }
+}
+
+
+/*
+*  SET IMC AND ICC
+*/
+
+controller.updateIccImc = async (req, res) => {
+  try {
+      const { _id, icc, imc} = req.body;
+
+      // FIND USER BY ID
+
+      const user = await User.findOne({ _id: _id });
+
+      // IF USER DOESN'T EXIST
+
+      if (!user) {
+        return res.status(404).json({ error: "El usuario no existe" });
+      }
+
+      // IF USER EXISTS
+      // UPDATE USER DATA
+
+      user.icc = icc
+      user.imc = imc
+
+      // SAVE USER
+
+      await user.save();
+
+      return res.status(200).json({ message: "Datos actualizados con éxito!" });
+
+  } catch (error) {
+    debug(error);
+    return res.status(500).json({ error: "Error inesperado" })
+  }
+}
+
+/*
+*  FIND ALL USER's
+*/
+
+controller.findAllUser = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1; // Obtener el número de página de los parámetros de consulta
+    const limit = parseInt(req.query.limit) || 10; // Establecer un límite de elementos por página (por defecto 10)
+
+    const count = await User.countDocuments({ hidden: false }); // Obtener el número total de publicaciones no ocultas
+
+    const users = await User.find()
+        .skip((page - 1) * limit) // Saltar los documentos anteriores según la página y el límite
+        .limit(limit); // Limitar el número de documentos por página
+
+    const totalPages = Math.ceil(count / limit); // Calcular el número total de páginas
+
+    return res.status(200).json({ users, totalPages, currentPage: page });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error interno de servidor" });
+  }
+};
+
+/*
+*  UPDATE USER ROL
+*/
+
+controller.updateRol = async (req, res) => {
+  try {
+      const { _id, roles} = req.body;
+
+      // FIND USER BY ID
+
+      const user = await User.findOne({ _id: _id });
+
+      // IF USER DOESN'T EXIST
+
+      if (!user) {
+        return res.status(404).json({ error: "El usuario no existe" });
+      }
+
+      // IF USER EXISTS
+      // UPDATE USER DATA
+
+      user.roles = roles
+      // SAVE USER
+
+      await user.save();
+
+      return res.status(200).json({ message: "Rol actualizado con éxito!" });
+
+  } catch (error) {
+    debug(error);
+    return res.status(500).json({ error: "Error inesperado" })
+  }
+}
+
+/*
+*  DELETE USER
+*/
+
+controller.deleteUser = async (req, res) => {
+  try {
+    const {identifier: userID} = req.params;
+
+      // FIND USER BY ID
+
+      const user = await User.findOne({ _id: userID });
+
+      // IF USER DOESN'T EXIST
+
+      if (!user) {
+        return res.status(404).json({ error: "El usuario no existe" });
+      }
+
+      // IF USER EXISTS
+      // DELETE USER
+
+      await user.deleteOne();
+
+      return res.status(200).json({ message: "Usuario eliminado con éxito!" });
+
+  } catch (error) {
+    debug(error);
+    return res.status(500).json({ error: "Error inesperado" })
+  }
+}
+
+
+
+
 
 module.exports = controller;

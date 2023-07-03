@@ -4,8 +4,12 @@ const debug = require("debug")("app:user-model");
 
 const crypto = require("crypto");
 
-//email, user, password, roles, Saved Posts
 const userSchema = new Schema({
+
+  /*
+  * GENERAL DATA
+  */
+
   email: {
     type: String,
     required: true,
@@ -18,6 +22,59 @@ const userSchema = new Schema({
     trim: true,
     unique: true
   },
+  lastname: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true
+  },
+
+  /*
+  * USER DATA
+  */
+
+  imc: {
+    type: Number,
+    required: true,
+
+  },
+  icc: {
+    type: Number,
+    required: true
+  },
+  gender: {
+    type: Boolean, //True: Hombre, False: Mujer
+    required: true
+  },
+  birthday: {
+    type: Date,
+    required: true,
+    trim: true
+  },
+  weight: { // en kilogramos
+    type: Number,
+    required: true
+  },
+  height: { //en centimetros
+    type: Number,
+    required: true
+  },
+  waistP: {
+    type: Number,
+    required: true
+  },
+  hipP: {
+    type: Number,
+    required: true
+  },
+  approach: {
+    type: String,
+    required: true
+  },
+  /*
+  * PASSWORD DATA
+  */
+
   hashedPassword: {
     type: String,
     required: true

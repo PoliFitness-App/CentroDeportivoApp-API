@@ -74,7 +74,7 @@ middlewares.authorization = (roleRequired = ROLES.SYSADMIN) => {
 
       //Paso 2: Realizar el filtro de rol
       if (roleIndex < 0) {
-        return res.status(403).json({ error: "No tienes permiso" });
+        return res.status(403).json({ error: "You dont have access to create a Post, beacuse you are not an administrator" });
       }
 
       //Paso 3: Pasar al siguiente middleware

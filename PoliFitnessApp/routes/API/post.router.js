@@ -1,40 +1,75 @@
 const express = require("express");
 const router = express.Router();
 
-//const ROLES = require("../../data/roles.constants.json");
+const ROLES = require("../../data/roles.constants.json");
+
+/*
+* POST CONTROLLERS
+ */
 
 const postController = require("../../controllers/post.controller")
+
+/*
+* POST VALIDATORS
+*/
 
 const postValidators = require("../../validators/post.validators");
 const runValidations = require("../../validators/index.middleware");
 
-// FIND ALL POST's
+/*
+* AUTH MIDDLEWARES
+*/
+
+const { authentication, authorization } = require('../../middlewares/auth.middewares');
+
+/*
+* POST ROUTES
+*/
+
+/*
+* FIND ALL POST's
+*/
 
 router.get("/", postController.findAllPosts);
 
-// CREATE POST
+/*
+* CREATE POST
+*/
 
 router.post("/createPost",
+    authentication,
+    authorization(ROLES.ADMIN),
     postValidators.createPostValidator,
     runValidations,
     postController.createPost);
 
-// FIND POST BY CATEGORY
+/*
+* FIND POST BY CATEGORY
+*/
+  
+router.get("/getPostByCategory", 
+    postValidators.findPostByCategoryValidator,
+    runValidations,
+    postController.findPostsByCategory);
 
-router.get("/category", postController.findPostsByCategory);
+/*
+* FIND POST BY ID
+*/
 
-// FIND POST BY ID
-
-router.get("/identifier",
+router.patch("/getPost/:identifier",
     postValidators.findPostByIdValidator,
     runValidations,
     postController.findOneById);
 
-// DELETE POST BY ID
+/*
+* DELETE POST BY ID
+*/
 
-router.delete("/deletePost",
-    postValidators.findPostByIdValidator,
+router.patch("/deletePost/:identifier",
+    authentication,
+    authorization(ROLES.ADMIN),
+    postValidators.deletePostByIdValidator,
     runValidations,
-    postController.deletePostById);
+    postController.togglePostVisibility);
 
 module.exports = router;

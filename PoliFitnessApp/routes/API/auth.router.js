@@ -3,7 +3,7 @@ const router = Express.Router();
 
 const authController = require("../../controllers/auth.controller");
 const runValidations = require("../../validators/index.middleware");
-const { registerValidator } = require("../../validators/auth.validators");
+const { registerValidator, updateRolValidator } = require("../../validators/auth.validators");
 const { authentication } = require("../../middlewares/auth.middewares");
 
 router.post("/signup",
@@ -15,5 +15,26 @@ router.post("/signup",
 router.post("/signin", authController.login);
 
 router.get("/whoami", authentication, authController.whoami);
+
+router.post("/update",
+    authentication,
+    authController.updateUserData
+);
+
+router.post("/setRol",
+    authentication,
+    updateRolValidator,
+    runValidations,
+    authController.updateRol
+);
+
+router.get("/",
+    authentication,
+    authController.findAllUser
+);
+
+router.patch("/deleteUser/:identifier",
+    authentication,
+    authController.deleteUser);
 
 module.exports = router;
